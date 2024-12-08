@@ -57,18 +57,20 @@ export default function Main() {
 
   return (
     <main>
-      <div className="cards-container">
         {memoryCards.length === 0 ? (
-          <p className="loading">Loading cards...</p>
+          <div className="loading-container">
+            <p className="loading">Loading cards...</p>
+          </div>
         ) : (
-          memoryCards.map((card) => (
-            <div className="card-item" key={card.id} onClick={handleClick}>
-              <img src={card.image} alt={card.name} />
-              <p>{capitalize(card.name)}</p>
+            <div className="cards-container">
+            {memoryCards.map((card) => (
+              <div className="card-item" key={card.id} onClick={handleClick}>
+                <img src={card.image} alt={card.name} />
+                <p>{capitalize(card.name)}</p>
+              </div>
+            ))}
             </div>
-          ))
         )}
-      </div>
     </main>
   );
 }
