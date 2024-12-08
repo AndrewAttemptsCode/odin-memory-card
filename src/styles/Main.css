@@ -3,3 +3,38 @@
   font-size: 3rem;
   text-align: center;
 }
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.card-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #e9d5ff;
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.card-item img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.card-item p {
+  color: #3b0764;
+  text-align: center;
+}
