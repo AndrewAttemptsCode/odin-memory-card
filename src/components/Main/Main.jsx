@@ -40,20 +40,39 @@ export default function Main() {
 
   }, []);
 
+  function handleClick() {
+    // handle card to be marked as selected
+    shufflePokemon();
+  }
+
+  function shufflePokemon() {
+    const array = [...memoryCards];
+
+    for (let i = array.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1));
+      [array[i], array[randomIndex]] = [array[randomIndex], array[i]];      
+    }
+    setMemoryCards(array);
+  }
+
   return (
     <main>
-      <div className="cards">
+      <div className="cards-container">
         {memoryCards.length === 0 ? (
           <p className="loading">Loading cards...</p>
         ) : (
           memoryCards.map((card) => (
-            <div key={card.id}>
+            <div className="card-item" key={card.id} onClick={handleClick}>
               <img src={card.image} alt={card.name} />
-              <p>{card.name}</p>
+              <p>{capitalize(card.name)}</p>
             </div>
           ))
         )}
       </div>
     </main>
   );
+}
+
+function capitalize(name) {
+  return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
