@@ -40,8 +40,15 @@ export default function Main() {
 
   }, []);
 
-  function handleClick() {
-    // handle card to be marked as selected
+  function updateSelectedCard(cards, cardId) {
+    return cards.map(card => 
+      card.id === cardId ? {...card, selected: true} : card
+    );
+  }
+
+  function handleClick(cardId) {
+    const updateCards = updateSelectedCard(memoryCards, cardId);
+    setMemoryCards(updateCards);
     shufflePokemon();
   }
 
@@ -64,7 +71,11 @@ export default function Main() {
         ) : (
             <div className="cards-container">
             {memoryCards.map((card) => (
-              <div className="card-item" key={card.id} onClick={handleClick}>
+              <div 
+                className="card-item" 
+                key={card.id} 
+                onClick={() => handleClick(card.id)}
+              >
                 <img src={card.image} alt={card.name} />
                 <p>{capitalize(card.name)}</p>
               </div>
