@@ -4,7 +4,7 @@ import '../../styles/Main.css';
 
 let nextId = 0;
 
-export default function Main() {
+export default function Main({ setScore }) {
   const [memoryCards, setMemoryCards] = useState([]);
 
   async function fetchRandomPokemon() {
@@ -27,16 +27,22 @@ export default function Main() {
   }
 
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchPokemon() {
       const cards = [];
       for (let i = 0; i < 12; i++) {
         const card = await fetchRandomPokemon();
         if (card) cards.push(card);
       }
-      setMemoryCards(cards);
+      if (isMounted) setMemoryCards(cards);
     };
 
     fetchPokemon();
+
+    return () => {
+      isMounted = false;
+    };
 
   }, []);
 
@@ -47,13 +53,28 @@ export default function Main() {
   }
 
   function handleClick(cardId) {
-    const updateCards = updateSelectedCard(memoryCards, cardId);
-    setMemoryCards(updateCards);
-    shufflePokemon();
+    const card = memoryCards.find((card) => card.id === cardId);
+    if (!card) return;
+
+    if (card.selected) {
+      setScore(0);
+      resetGame();
+    } else {
+      setScore((prevScore) => prevScore + 1);
+      const updateCards = updateSelectedCard(memoryCards, cardId);
+      setMemoryCards(updateCards);
+      shufflePokemon(updateCards);
+    }
   }
 
-  function shufflePokemon() {
-    const array = [...memoryCards];
+  function resetGame() {
+    const resetCards = memoryCards.map((card) => ({...card, selected: false}));
+    setMemoryCards(resetCards);
+    shufflePokemon(resetCards);
+  }
+
+  function shufflePokemon(cards) {
+    const array = [...cards];
 
     for (let i = array.length - 1; i > 0; i--) {
       const randomIndex = Math.floor(Math.random() * (i + 1));
