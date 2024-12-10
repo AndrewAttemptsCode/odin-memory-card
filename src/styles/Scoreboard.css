@@ -1,0 +1,15 @@
+.scoreboard p {
+  color: #581c87;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+.score-display {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.score-display.animate {
+  transform: scale(1.5);
+}
