@@ -69,7 +69,6 @@ export default function Main({ setScore }) {
 
   function resetGame() {
     const resetCards = memoryCards.map((card) => ({...card, selected: false}));
-    setMemoryCards(resetCards);
     shufflePokemon(resetCards);
   }
 
@@ -110,3 +109,7 @@ export default function Main({ setScore }) {
 function capitalize(name) {
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
+
+// best score condition on win/lose
+// animations win/lose conditions
+// game complete condition
