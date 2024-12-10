@@ -28,6 +28,11 @@ main {
   border-radius: 10px;
   user-select: none;
   cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.card-item:hover {
+  transform: scale(1.1);
 }
 
 .card-item img {
