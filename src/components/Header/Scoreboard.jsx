@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../../styles/Scoreboard.css';
 
-export default function Scoreboard({ score }) {
+export default function Scoreboard({ score, bestScore }) {
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function Scoreboard({ score }) {
   return (
     <div className="scoreboard">
       <p>Score: <span className={`score-display ${isAnimating ? "animate" : ""}`}>{score}</span></p>
-      <p>Best Score:</p>
+      <p>Best Score: <span>{bestScore}</span></p>
     </div>
   );
 }
