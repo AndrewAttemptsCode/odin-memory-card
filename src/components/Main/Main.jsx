@@ -6,6 +6,7 @@ let nextId = 0;
 
 export default function Main({ score, setScore, bestScore, setBestScore }) {
   const [memoryCards, setMemoryCards] = useState([]);
+  const [showWinnerScreen, setShowWinnerScreen] = useState(false);
 
   async function fetchRandomPokemon() {
     try {
@@ -46,6 +47,10 @@ export default function Main({ score, setScore, bestScore, setBestScore }) {
 
   }, []);
 
+  useEffect(() => {
+    if (score === 12) setShowWinnerScreen(true);
+  }, [score]);
+
   function updateSelectedCard(cards, cardId) {
     return cards.map(card => 
       card.id === cardId ? {...card, selected: true} : card
@@ -75,6 +80,7 @@ export default function Main({ score, setScore, bestScore, setBestScore }) {
   function resetGame() {
     const resetCards = memoryCards.map((card) => ({...card, selected: false}));
     setScore(0);
+    setShowWinnerScreen(false);
     shufflePokemon(resetCards);
   }
 
@@ -94,20 +100,26 @@ export default function Main({ score, setScore, bestScore, setBestScore }) {
           <div className="loading-container">
             <p className="loading">Loading cards...</p>
           </div>
+        ) : showWinnerScreen ? (
+          <div className="winner-container">
+            <h1>Well Done!</h1>
+            <p>You have selected all {memoryCards.length} memory cards.</p>
+            <button onClick={resetGame}>Go again</button>
+          </div>
         ) : (
-            <div className="cards-container">
-            {memoryCards.map((card) => (
-              <div 
-                className="card-item" 
-                key={card.id} 
-                onClick={() => handleClick(card.id)}
-              >
-                <img src={card.image} alt={card.name} />
-                <p>{capitalize(card.name)}</p>
-              </div>
-            ))}
+          <div className="cards-container">
+          {memoryCards.map((card) => (
+            <div 
+              className="card-item" 
+              key={card.id} 
+              onClick={() => handleClick(card.id)}
+            >
+              <img src={card.image} alt={card.name} />
+              <p>{capitalize(card.name)}</p>
             </div>
-        )}
+          ))}
+          </div>
+      )} 
     </main>
   );
 }
@@ -118,4 +130,3 @@ function capitalize(name) {
 
 // best score condition on win/lose
 // animations win/lose conditions
-// game complete condition
