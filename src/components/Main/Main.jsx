@@ -127,6 +127,3 @@ export default function Main({ score, setScore, bestScore, setBestScore }) {
 function capitalize(name) {
   return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 }
-
-// best score condition on win/lose
-// animations win/lose conditions
