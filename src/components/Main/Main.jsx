@@ -4,7 +4,7 @@ import '../../styles/Main.css';
 
 let nextId = 0;
 
-export default function Main({ setScore }) {
+export default function Main({ score, setScore, bestScore, setBestScore }) {
   const [memoryCards, setMemoryCards] = useState([]);
 
   async function fetchRandomPokemon() {
@@ -54,13 +54,18 @@ export default function Main({ setScore }) {
 
   function handleClick(cardId) {
     const card = memoryCards.find((card) => card.id === cardId);
+
     if (!card) return;
 
     if (card.selected) {
-      setScore(0);
       resetGame();
     } else {
-      setScore((prevScore) => prevScore + 1);
+      setScore((prevScore) => {
+        const newScore = prevScore + 1;
+        setBestScore((prevBestScore) => Math.max(newScore, prevBestScore));  
+        return newScore;
+      });
+
       const updateCards = updateSelectedCard(memoryCards, cardId);
       setMemoryCards(updateCards);
       shufflePokemon(updateCards);
@@ -69,6 +74,7 @@ export default function Main({ setScore }) {
 
   function resetGame() {
     const resetCards = memoryCards.map((card) => ({...card, selected: false}));
+    setScore(0);
     shufflePokemon(resetCards);
   }
 
